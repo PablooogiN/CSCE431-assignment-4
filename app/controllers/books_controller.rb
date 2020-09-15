@@ -1,25 +1,57 @@
 class BooksController < ApplicationController
-  layout false
+  # layout false
 
   def index
+    @books = Book.all
   end
 
-  def add
-    # redirect_to(:action => 'index')
-    @title = params[:title]
-    @author = params[:author]
-    @genre = params[:genre]
-    @price = params[:price]
-    @published_date = params[:published_date]
-    render('add')
+  def show
+    @book = Book.find(params[:id])
+  end
+
+  def new
+    @book = Book.new
+  end
+
+  def create
+    @book = Book.new(book_params)
+    if @book.save
+      flash[:notice] = "Book created successfully"
+      redirect_to(books_path)
+    else
+      render('new')
+    end
+  end
+
+  def edit
+    @book = Book.find(params[:id])
   end
 
   def update
-  end
-
-  def details
+    #TO DO: MAKE THE ORDER ASC PERMANENT!!!!
+    @book = Book.find(params[:id])
+    if @book.update_attributes(book_params)
+      flash[:notice] = "Book updated successfully"
+      redirect_to(book_path(@book))
+    else
+      render('edit')
+    end
   end
 
   def delete
+    @book = Book.find(params[:id])
   end
+
+  def destroy
+    @book = Book.find(params[:id])
+    @book.destroy
+    flash[:notice] = "Book destroyed successfully"
+    redirect_to(books_path)
+  end
+
+  private
+  def book_params
+    params.require(:book).permit(:title, :author, :genre, :price, :published_date)
+  end
+
 end
