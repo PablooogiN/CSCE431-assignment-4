@@ -9,7 +9,7 @@
       </tr>
       <tr>
         <th>Genre</th>
-        <td><%= f.text_field(:genre) %></td>
+        <td><%= f.select(:genre, ['Fiction', 'Romance', 'Mystery', 'Fantasy', 'Crime', 'Non Fiction']) %></td>
       </tr>
       <tr>
         <th>Price</th>
@@ -17,6 +17,6 @@
       </tr>
       <tr>
         <th>Published</th>
-        <td><%= f.text_field(:published_date) %></td>
+        <td><%= f.date_select(:published_date, :order => [:month, :day, :year]) %></td>
       </tr>
     </table>
